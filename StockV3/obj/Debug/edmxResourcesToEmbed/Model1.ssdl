@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StockDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ContactNumber">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="ProviderId" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="Capacity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Capacity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Units" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="MinCapacity" Type="int" Nullable="false" />
+    <Property Name="MaxCapacity" Type="int" Nullable="false" />
+    <Property Name="Price" Type="money" Nullable="false" />
+    <Property Name="Information" Type="nvarchar" MaxLength="300" />
+    <Property Name="TypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\FAKTORZ\SOURCE\REPOS\STOCKV3\STOCKV3\STOCKDB.MDF.dbo.ProductProvider' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ProductProvider">
+    <Key>
+      <PropertyRef Name="ProviderID" />
+      <PropertyRef Name="ProductID" />
+    </Key>
+    <Property Name="ProviderID" Type="int" Nullable="false" />
+    <Property Name="ProductID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Provider">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContactMail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ContactName" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\USERS\FAKTORZ\SOURCE\REPOS\STOCKV3\STOCKV3\STOCKDB.MDF.dbo.ProviderType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ProviderType">
+    <Key>
+      <PropertyRef Name="ProviderId" />
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="ProviderId" Type="int" Nullable="false" />
+    <Property Name="TypeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="120" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <Association Name="ContactNumber_fk0">
+    <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+    <End Role="ContactNumber" Type="Self.ContactNumber" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactNumber">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Log_fk0">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="Log" Type="Self.Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Log">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Product_fk0">
+    <End Role="Type" Type="Self.Type" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductProvider_fk0">
+    <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+    <End Role="ProductProvider" Type="Self.ProductProvider" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductProvider">
+        <PropertyRef Name="ProviderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProductProvider_fk1">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="ProductProvider" Type="Self.ProductProvider" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductProvider">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProviderType_fk0">
+    <End Role="Provider" Type="Self.Provider" Multiplicity="1" />
+    <End Role="ProviderType" Type="Self.ProviderType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Provider">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProviderType">
+        <PropertyRef Name="ProviderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProviderType_fk1">
+    <End Role="Type" Type="Self.Type" Multiplicity="1" />
+    <End Role="ProviderType" Type="Self.ProviderType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProviderType">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StockDbModelStoreContainer">
+    <EntitySet Name="ContactNumber" EntityType="Self.ContactNumber" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Provider" EntityType="Self.Provider" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductProvider" EntityType="Self.ProductProvider" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProductProvider].[ProviderID] AS [ProviderID], 
+    [ProductProvider].[ProductID] AS [ProductID]
+    FROM [dbo].[ProductProvider] AS [ProductProvider]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="ProviderType" EntityType="Self.ProviderType" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ProviderType].[ProviderId] AS [ProviderId], 
+    [ProviderType].[TypeId] AS [TypeId]
+    FROM [dbo].[ProviderType] AS [ProviderType]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="ContactNumber_fk0" Association="Self.ContactNumber_fk0">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="ContactNumber" EntitySet="ContactNumber" />
+    </AssociationSet>
+    <AssociationSet Name="Log_fk0" Association="Self.Log_fk0">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="Log" EntitySet="Log" />
+    </AssociationSet>
+    <AssociationSet Name="Product_fk0" Association="Self.Product_fk0">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+    <AssociationSet Name="ProductProvider_fk0" Association="Self.ProductProvider_fk0">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="ProductProvider" EntitySet="ProductProvider" />
+    </AssociationSet>
+    <AssociationSet Name="ProductProvider_fk1" Association="Self.ProductProvider_fk1">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="ProductProvider" EntitySet="ProductProvider" />
+    </AssociationSet>
+    <AssociationSet Name="ProviderType_fk0" Association="Self.ProviderType_fk0">
+      <End Role="Provider" EntitySet="Provider" />
+      <End Role="ProviderType" EntitySet="ProviderType" />
+    </AssociationSet>
+    <AssociationSet Name="ProviderType_fk1" Association="Self.ProviderType_fk1">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="ProviderType" EntitySet="ProviderType" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

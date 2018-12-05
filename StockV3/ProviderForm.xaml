@@ -1,0 +1,45 @@
+﻿<Window x:Class="StockV3.ProviderForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockV3"
+        mc:Ignorable="d"
+         Title="ProviderForm" Height="692" Width="500">
+    <Window.Resources>
+        <DataTemplate x:Key="listTemplate">
+            <StackPanel Margin="3">
+                <TextBlock x:Name="TitleTB" Margin="10, 0" HorizontalAlignment="Left" Text="{Binding Path=Title}"/>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="PhoneTemplate">
+            <StackPanel Margin="3">
+                <TextBlock Margin="10, 0" HorizontalAlignment="Left" Text="{Binding Path=Number}"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="ProviderListBox" ItemTemplate="{StaticResource listTemplate}" SelectionChanged="ProviderListBox_SelectionChanged"/>
+
+        <StackPanel Grid.Column="1">
+            <Label Content="Название"/>
+            <TextBox x:Name="name"/>
+            <Label Content="Контактное лицо"/>
+            <TextBox x:Name="contact"/>
+            <Label Content="Email"/>
+            <TextBox x:Name="email"/>
+            <Label Content="Телефоны"/>
+            <ListBox x:Name="PhoneList" ItemTemplate="{StaticResource PhoneTemplate}" Height="110" SelectionChanged="ListBox_SelectionChanged"/>
+            <TextBox x:Name="addTel" TextChanged="addTel_TextChanged"/>
+            <Button Margin="8" Content="Добавить телефон" Click="Button_Click"/>
+            <Button Margin="8" Content="Изменить товар"/>
+            <Button Margin="8" Content="Добавить товар"/>
+            <Button Margin="8" Content="Ок" Click="Button_Click_1"/>
+            <Button Margin="8" Content="Отмена" Click="Button_Click_2"/>
+        </StackPanel>
+    </Grid>
+</Window>
